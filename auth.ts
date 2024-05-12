@@ -29,46 +29,47 @@ import WorkOS from "next-auth/providers/workos"
 import Zoom from "next-auth/providers/zoom"
 
 import type { NextAuthConfig } from "next-auth"
+import {SupabaseAdapter} from "@auth/supabase-adapter";
 
 export const config = {
+  debug: false,
   theme: { logo: "https://authjs.dev/img/logo-sm.png" },
+  adapter: SupabaseAdapter({
+    url: process.env.SUPABASE_URL!,
+    secret: process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  }),
   providers: [
-    Apple,
-    Auth0,
-    AzureB2C({
-      clientId: process.env.AUTH_AZURE_AD_B2C_ID,
-      clientSecret: process.env.AUTH_AZURE_AD_B2C_SECRET,
-      issuer: process.env.AUTH_AZURE_AD_B2C_ISSUER,
-    }),
-    BoxyHQSAML({
-      clientId: "dummy",
-      clientSecret: "dummy",
-      issuer: process.env.AUTH_BOXYHQ_SAML_ISSUER,
-    }),
-    Cognito,
-    Coinbase,
-    Discord,
-    Dropbox,
-    Facebook,
+    // Apple,
+    // Auth0,
+    // BoxyHQSAML({
+    //   clientId: "dummy",
+    //   clientSecret: "dummy",
+    //   issuer: process.env.AUTH_BOXYHQ_SAML_ISSUER,
+    // }),
+    // Cognito,
+    // Coinbase,
+    // Discord,
+    // Dropbox,
+    // Facebook,
     GitHub,
-    GitLab,
-    Google,
-    Hubspot,
-    Keycloak,
-    LinkedIn,
-    Netlify,
-    Okta,
-    Passage,
-    Pinterest,
-    Reddit,
-    Slack,
-    Spotify,
-    Twitch,
-    Twitter,
-    WorkOS({
-      connection: process.env.AUTH_WORKOS_CONNECTION!,
-    }),
-    Zoom,
+    // GitLab,
+    // Google,
+    // Hubspot,
+    // Keycloak,
+    // LinkedIn,
+    // Netlify,
+    // Okta,
+    // Passage,
+    // Pinterest,
+    // Reddit,
+    // Slack,
+    // Spotify,
+    // Twitch,
+    // Twitter,
+    // WorkOS({
+    //   connection: process.env.AUTH_WORKOS_CONNECTION!,
+    // }),
+    // Zoom,
   ],
   basePath: "/auth",
   callbacks: {
@@ -85,7 +86,8 @@ export const config = {
       return token
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken
+      // TODO: https://github.com/nextauthjs/next-auth/discussions/913
+      session.accessToken = token?.accessToken
       return session
     },
   },

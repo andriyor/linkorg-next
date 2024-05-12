@@ -1,7 +1,8 @@
 import { auth } from "auth"
 
-export const GET = auth((req) => {
+export const GET = auth(async (req) => {
   if (req.auth) {
+    console.log('Protected', req.auth.user);
     return Response.json({ data: "Protected data" })
   }
 

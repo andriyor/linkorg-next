@@ -1,9 +1,22 @@
 import type { Session } from "next-auth"
 
 export default function SessionData({ session }: { session: Session | null }) {
+
+  const makeRequestWithToken = async () => {
+    try {
+      const response = await fetch("/api/protected")
+      const data = await response.json()
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   if (session?.user) {
     return (
       <div className="flex flex-col gap-4 w-full">
+        <button onClick={makeRequestWithToken}>kek</button>
         <h2 className="text-xl font-bold">Current Session Data</h2>
         {Object.keys(session.user).length > 3 ? (
           <p>
@@ -32,6 +45,7 @@ export default function SessionData({ session }: { session: Session | null }) {
 
   return (
     <p>
+      <button onClick={makeRequestWithToken}>kek</button>
       No session data, please <em>Sign In</em> first.
     </p>
   )
